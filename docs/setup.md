@@ -40,23 +40,34 @@ The setup of kakfa connect can be done using terraform's kubernetes deployment r
     --8<-- "docs/examples/kafka-connect/secrets.tf"
     ```
 
-### Observability
-!!! warning
-    Before follow this section, you must [setup opentelemetry](opentelemetry.md) collector which is necessary to collect data from kafka connect.
+#### Configuration
+Every kafka connect configuration can be provided through environment variabile by using "CONNECT_" prefix.
+Here some of the most important configurations for this POC.
 
-
+Group id allows to setup the kafka cluster name, instances with same group id are part of the same cluster.
 ``` terraform
-ENABLE_OTEL = "true"
-OTEL_SERVICE_NAME= "kafka-connect"
-OTEL_TRACES_EXPORTER="otlp"
-OTEL_METRICS_EXPORTER="otlp"
-OTEL_PROPAGATORS="tracecontext"
-OTEL_EXPORTER_OTLP_ENDPOINT="http://opentelemetry-collector.strimzi.svc.cluster.local:4317"
-OTEL_TRACES_SAMPLER="always_on"
-JAVA_TOOL_OPTIONS="-javaagent:./opentelemetry-javaagent.jar"
-OTEL_INSTRUMENTATION_COMMON_DEFAULT_ENABLED="false"
-OTEL_INSTRUMENTATION_MONGO_ENABLED="true"
-OTEL_INSTRUMENTATION_KAFKA_ENABLED="true"
+GROUP_ID=<cluster_name>
+```
+
+This enables to resolve placeholder with environment variable, is useful to hide secret when create a new connector.
+```terraform
+CONNECT_CONFIG_PROVIDERS: "env"
+CONNECT_CONFIG_PROVIDERS_ENV_CLASS: "org.apache.kafka.common.config.provider.EnvVarConfigProvider"
+```
+!!! tip
+    If you have an environment variabile called "SUPERSECRET" you can inject its value when creating a connector by
+    using ${env:SUPERSECRET} placeholder.
+
+
+Eventhub works with sasl_ssl protocol so you need to setup kafka connect to use the azure's connection string
+``` terraform
+CONNECT_SECURITY_PROTOCOL="SASL_SSL"
+CONNECT_SASL_MECHANISM="PLAIN"
+CONNECT_PRODUCER_SECURITY_PROTOCOL="SASL_SSL"
+CONNECT_PRODUCER_SASL_MECHANISM="PLAIN"
+# as secrets ...
+CONNECT_SASL_JAAS_CONFIG: "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"<ConnectionString>\";"
+CONNECT_PRODUCER_SASL_JAAS_CONFIG: "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"$ConnectionString\" password=\"<ConnectionString>\";"
 ```
 
 ### High availability
@@ -82,6 +93,25 @@ spec {
 
 In this way a fault of a single node will not affect kafka
 connect cluster which has another pod instance running in another k8s node.
+
+### Observability
+!!! warning
+    Before follow this section, you must [setup opentelemetry](opentelemetry.md) collector which is necessary to collect data from kafka connect.
+
+
+``` terraform
+ENABLE_OTEL = "true"
+OTEL_SERVICE_NAME= "kafka-connect"
+OTEL_TRACES_EXPORTER="otlp"
+OTEL_METRICS_EXPORTER="otlp"
+OTEL_PROPAGATORS="tracecontext"
+OTEL_EXPORTER_OTLP_ENDPOINT="http://opentelemetry-collector.strimzi.svc.cluster.local:4317"
+OTEL_TRACES_SAMPLER="always_on"
+JAVA_TOOL_OPTIONS="-javaagent:./opentelemetry-javaagent.jar"
+OTEL_INSTRUMENTATION_COMMON_DEFAULT_ENABLED="false"
+OTEL_INSTRUMENTATION_MONGO_ENABLED="true"
+OTEL_INSTRUMENTATION_KAFKA_ENABLED="true"
+```
 
 ## Strimzi setup
 TBD
