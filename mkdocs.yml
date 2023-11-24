@@ -1,5 +1,6 @@
 nav:
-  - Home: docs/index.md
+  - Home: index.md
+  - Infrastructure setup: infra-setup.md
 repo_name: pagopa/cstar-poc-kafka-connect
 repo_url: https://github.com/pagopa/cstar-poc-kafka-connect
 site_author: PagoPA
