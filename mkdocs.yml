@@ -1,14 +1,32 @@
 nav:
   - Home: index.md
-  - Infrastructure setup: infra-setup.md
+  - Prepare Image: prepare-image.md
+  - Setup: 
+    - 'Kafka connect setup': setup.md
+    - 'Deploy connector': deploy-connector.md 
+  - OpenTelemetry: opentelemetry.md
 repo_name: pagopa/cstar-poc-kafka-connect
 repo_url: https://github.com/pagopa/cstar-poc-kafka-connect
 site_author: PagoPA
 site_name: CSTAR POC Kafka Connect
 site_url: https://github.com/pagopa/cstar-poc-kafka-connect
 theme:
+  name: material
   font:
     code: Roboto Mono
     text: Roboto
-  name: material
+  features:
+    - content.code.copy
 use_directory_urls: true
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
