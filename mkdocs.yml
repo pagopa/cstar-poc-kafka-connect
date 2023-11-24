@@ -1,0 +1,13 @@
+nav:
+  - Home: docs/index.md
+repo_name: pagopa/cstar-poc-kafka-connect
+repo_url: https://github.com/pagopa/cstar-poc-kafka-connect
+site_author: PagoPA
+site_name: CSTAR POC Kafka Connect
+site_url: https://github.com/pagopa/cstar-poc-kafka-connect
+theme:
+  font:
+    code: Roboto Mono
+    text: Roboto
+  name: material
+use_directory_urls: true

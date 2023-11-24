@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral();
+}
+
+configurations {
+    mongoKafkaConnect
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.mongodb.kafka/mongo-kafka-connect
+    mongoKafkaConnect("org.mongodb.kafka:mongo-kafka-connect:1.5.1")
+}
+
+task getMongoKafkaConnectDeps(type: Copy) {
+    from configurations.mongoKafkaConnect
+    into 'mongo-kafka-connect'
+    include '*.jar'
+}
