@@ -14,6 +14,7 @@ by making a POST or PUT http request.
     ```
 
 In the example, the most importat configuration are:
+
 - `connection.uri: ${env:COSMOS_CONNECTION_STRING}` - this will resolve the connection string with the environment variable value
 - `pipeline` -  is the pipeline used by mongo to make `watch` method call. The pipeline must be equals as the one repoted by microsoft documention
 - `output.schema.key` - allows to define the partition key used by kafka producer
