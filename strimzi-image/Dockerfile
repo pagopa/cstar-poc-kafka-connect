@@ -8,11 +8,10 @@ RUN gradle getMongoKafkaConnectDeps
 RUN curl -L "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.32.0/opentelemetry-javaagent.jar" \
     --output "opentelemetry-javaagent.jar" 
 
-FROM debezium/connect-base:2.4.1.Final@sha256:52297b4d15b2eff0a19b44337e34a9cd3144696a70393ab9f4eee14d697abb0e
+FROM quay.io/strimzi/kafka:0.38.0-kafka-3.6.0
+USER root:root
 
-COPY --from=deps /deps/mongo-kafka-connect/ /kafka/connect/mongo-kafka-connect/
+COPY --from=deps /deps/mongo-kafka-connect/ /opt/kafka/plugins/
 COPY --from=deps /deps/opentelemetry-javaagent.jar .
 
-USER root
-RUN chmod 777 -R /kafka/connect/
-USER kafka
+USER 1001

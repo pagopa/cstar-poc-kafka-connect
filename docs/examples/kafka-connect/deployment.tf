@@ -1,5 +1,4 @@
 resource "kubernetes_deployment" "kafka_connect" {
-  count = 1
   metadata {
     name = "kafka-connect"
     namespace = "..."

@@ -1,6 +1,6 @@
 {
     "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
-    "connection.uri": "<connection_uri>",
+    "connection.uri": "${env:COSMOS_CONNECTION_STRING}",
     "database": "<db>",
     "collection": "<collection>",
     "topic.namespace.map": "{\"<db>.<collection>\": \"<topic_you_want>\"}",

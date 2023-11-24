@@ -7,12 +7,16 @@
 
 ```bash
 cd kafka-connect-image
-docker build -t cstarcommon.azure.io/kafka-connectors .
+docker build -t <azure_acr>.azurecr.io/kafka-connectors .
 ```
 The docker build is multistage:
 
 1. the first stage downloads connector jars using gradle. Also downloads opentelemetry-javaagent to use it later to instrument connector
 2. the final stage use `debezium/connect-base` which is a base image of kafka connect and copy the connector from previous stage
+
+!!! tip
+    - To login to azure acr `az acr login -n <azure_registry>`
+    - Push to registry `docker push cstardcommonacr.azurecr.io/kafka-connectors`
 
 ## Strimzi image
 TBD

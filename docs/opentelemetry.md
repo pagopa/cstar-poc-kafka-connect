@@ -38,3 +38,8 @@ traces:
     receivers: [otlp]
     exporters: [debug, azuremonitor]
 ```
+
+## Prometheus receiver
+In order to collect JMX exposed metrics through prometheus we must setup collecto to capture prometheus metrics from pods.
+
+TBD

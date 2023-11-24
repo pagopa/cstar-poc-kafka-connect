@@ -1,8 +1,7 @@
 resource "kubernetes_config_map" "kafka_connect_config" {
-  count = 1
   metadata {
     name = "kafka-connect-config"
-    namespace = "strimzi"
+    namespace = "..."
   }
 
   data = {
@@ -25,5 +24,9 @@ resource "kubernetes_config_map" "kafka_connect_config" {
     CONNECT_METADATA_MAX_AGE_MS: "180000"
     CONNECT_CONNECTIONS_MAX_IDLE_MS: "180000"
     CONNECT_MAX_REQUEST_SIZE: "1000000"
+
+    # allows to get secrets from environment variables
+    CONNECT_CONFIG_PROVIDERS: "env"
+    CONNECT_CONFIG_PROVIDERS_ENV_CLASS: "org.apache.kafka.common.config.provider.EnvVarConfigProvider"
   }
 }
